@@ -1,0 +1,139 @@
+@prefix ex: <http://example.org/ontology#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+# Ontology metadata
+ex: a owl:Ontology ;
+    rdfs:label "Knowledge Graph for Business Entities"@en ;
+    rdfs:comment "An ontology defining entities for products, clients, projects, and relationships."@en ;
+    owl:versionInfo "1.0" .
+
+# Classes
+ex:Prodotto a owl:Class ;
+    rdfs:label "Prodotto"@it ;
+    rdfs:comment "A product offered by the company."@it .
+
+ex:Cliente a owl:Class ;
+    rdfs:label "Cliente"@it ;
+    rdfs:comment "A client or customer of the company."@it .
+
+ex:Progetto a owl:Class ;
+    rdfs:label "Progetto"@it ;
+    rdfs:comment "A project undertaken by the company."@it .
+
+ex:Relazione a owl:Class ;
+    rdfs:label "Relazione"@it ;
+    rdfs:comment "A relationship between entities (e.g., client-project, product-project)."@it .
+
+# Properties for Prodotto
+ex:nomeProdotto a owl:DatatypeProperty ;
+    rdfs:label "nome prodotto"@it ;
+    rdfs:domain ex:Prodotto ;
+    rdfs:range xsd:string .
+
+ex:prezzo a owl:DatatypeProperty ;
+    rdfs:label "prezzo"@it ;
+    rdfs:domain ex:Prodotto ;
+    rdfs:range xsd:decimal .
+
+ex:categoria a owl:DatatypeProperty ;
+    rdfs:label "categoria"@it ;
+    rdfs:domain ex:Prodotto ;
+    rdfs:range xsd:string .
+
+# Properties for Cliente
+ex:nomeCliente a owl:DatatypeProperty ;
+    rdfs:label "nome cliente"@it ;
+    rdfs:domain ex:Cliente ;
+    rdfs:range xsd:string .
+
+ex:email a owl:DatatypeProperty ;
+    rdfs:label "email"@it ;
+    rdfs:domain ex:Cliente ;
+    rdfs:range xsd:string .
+
+ex:azienda a owl:DatatypeProperty ;
+    rdfs:label "azienda"@it ;
+    rdfs:domain ex:Cliente ;
+    rdfs:range xsd:string .
+
+# Properties for Progetto
+ex:nomeProgetto a owl:DatatypeProperty ;
+    rdfs:label "nome progetto"@it ;
+    rdfs:domain ex:Progetto ;
+    rdfs:range xsd:string .
+
+ex:dataInizio a owl:DatatypeProperty ;
+    rdfs:label "data di inizio"@it ;
+    rdfs:domain ex:Progetto ;
+    rdfs:range xsd:date .
+
+ex:dataFine a owl:DatatypeProperty ;
+    rdfs:label "data di fine"@it ;
+    rdfs:domain ex:Progetto ;
+    rdfs:range xsd:date .
+
+ex:budget a owl:DatatypeProperty ;
+    rdfs:label "budget"@it ;
+    rdfs:domain ex:Progetto ;
+    rdfs:range xsd:decimal .
+
+# Properties for Relazione
+ex:tipoRelazione a owl:DatatypeProperty ;
+    rdfs:label "tipo relazione"@it ;
+    rdfs:domain ex:Relazione ;
+    rdfs:range xsd:string .
+
+ex:dataInizioRelazione a owl:DatatypeProperty ;
+    rdfs:label "data inizio relazione"@it ;
+    rdfs:domain ex:Relazione ;
+    rdfs:range xsd:date .
+
+ex:note a owl:DatatypeProperty ;
+    rdfs:label "note"@it ;
+    rdfs:domain ex:Relazione ;
+    rdfs:range xsd:string .
+
+# Object properties to link Relazione to entities
+ex:haSoggetto a owl:ObjectProperty ;
+    rdfs:label "ha soggetto"@it ;
+    rdfs:domain ex:Relazione ;
+    rdfs:range owl:Thing .
+
+ex:haOggetto a owl:ObjectProperty ;
+    rdfs:label "ha oggetto"@it ;
+    rdfs:domain ex:Relazione ;
+    rdfs:range owl:Thing .
+
+# Example individuals
+ex:Prodotto1 a ex:Prodotto ;
+    ex:nomeProdotto "Laptop X1"@it ;
+    ex:prezzo 1299.99 ;
+    ex:categoria "Elettronica"@it .
+
+ex:Cliente1 a ex:Cliente ;
+    ex:nomeCliente "Mario Rossi"@it ;
+    ex:email "mario.rossi@email.com" ;
+    ex:azienda "Azienda ABC"@it .
+
+ex:Progetto1 a ex:Progetto ;
+    ex:nomeProgetto "Sistema CRM"@it ;
+    ex:dataInizio "2026-01-15"^^xsd:date ;
+    ex:dataFine "2026-06-30"^^xsd:date ;
+    ex:budget 50000.00 .
+
+ex:Relazione1 a ex:Relazione ;
+    ex:tipoRelazione "fornitura"@it ;
+    ex:dataInizioRelazione "2026-02-01"^^xsd:date ;
+    ex:note "Fornitura di laptop per il progetto CRM"@it ;
+    ex:haSoggetto ex:Cliente1 ;
+    ex:haOggetto ex:Prodotto1 .
+
+ex:Relazione2 a ex:Relazione ;
+    ex:tipoRelazione "utilizzato in"@it ;
+    ex:dataInizioRelazione "2026-01-15"^^xsd:date ;
+    ex:note "Il laptop X1 è utilizzato nel progetto Sistema CRM"@it ;
+    ex:haSoggetto ex:Prodotto1 ;
+    ex:haOggetto ex:Progetto1 .
